@@ -1,4 +1,4 @@
-package com.mycompany.trabalhoso;
+package com.mycompany.trabalhoso.principal;
 
 import java.io.IOException;
 import java.util.ArrayList;

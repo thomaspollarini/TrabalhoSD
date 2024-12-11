@@ -1,4 +1,4 @@
-package com.mycompany.trabalhoso;
+package com.mycompany.trabalhoso.model;
 
 import java.io.FileWriter;
 import java.io.IOException;

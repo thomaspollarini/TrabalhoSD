@@ -1,4 +1,4 @@
-package com.mycompany.trabalhoso;
+package com.mycompany.trabalhoso.model;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,14 +20,14 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente getCliente() {
-        return this;
-    }
-
     public Cliente(int id, String nome, String CPF) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
+    }
+
+    public Cliente getCliente() {
+        return this;
     }
 
     public int getId() {
@@ -42,6 +42,25 @@ public class Cliente {
         return this.CPF;
     }
 
+    public Cliente setCliente(Cliente cliente){
+        this.id=cliente.id;
+        this.nome=cliente.nome;
+        this.CPF=cliente.CPF;
+    }
+
+    public void setId(int id){
+        this.id=id;
+    }
+
+    public void setNome(String nome){
+        this.nome=nome;
+    }
+
+    public void setCPF(String CPF){
+        this.CPF=CPF;
+    }
+
+    
     public boolean setCliente(String nome, String CPF) throws IOException {
         this.nome = nome;
         this.CPF = CPF;
@@ -73,36 +92,11 @@ public class Cliente {
         }
     }
 
-    static private List<Cliente> readArqCliente() throws IOException {
-        List<String> linhas = readAllLines(Paths.get("src/bd/clientes"), Charset.defaultCharset());
-        return linhas.stream()
-                .map(linha -> linha.split(";"))
-                .map(dados -> {
-                    return new Cliente(Integer.parseInt(dados[0]), dados[1], dados[2]);
-                })
-                .collect(Collectors.toList());
-    }
-
-    static private void writeArqCliente(Cliente cliente) {
-        try (FileWriter escritor = new FileWriter("src/bd/clientes", true)) {
-            escritor.write(cliente.toString()+"\n");
-        } catch (Exception e) {
-            System.out.println("Erro na escrita do arquivo cliente");
-        }
-    }
+    
 
     @Override
     public String toString() {
         return String.format("%d;%s;%s", this.id, this.nome, this.CPF); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
-   /* @Override
-    public Cliente clone() {
-        try {
-            return (Cliente) super.clone();  // Chama o método clone() da classe Object
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
 }
