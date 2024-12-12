@@ -14,8 +14,7 @@ public class ServiceCliente {
         if(Verify.cpfUnico(cliente.getCPF()) && Verify.idClienteExiste(cliente.getId())){
             return false;
         }
-        BancoDados.writeArq(cliente,"src/bd/clientes");
-        return true;
+        return BancoDados.writeArq(cliente,"src/bd/clientes");
     }
     
     public static Cliente getCliente(int id) {

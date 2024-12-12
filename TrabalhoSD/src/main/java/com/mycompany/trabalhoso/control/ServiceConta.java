@@ -15,8 +15,19 @@ public class ServiceConta {
             return false;
         }
         conta.setSaldo(1000);
-        BancoDados.writeArq(conta, "src/bd/contas");
-        
+        return BancoDados.writeArq(conta, "src/bd/contas");
+    }
+
+    public static boolean atualizarConta(Conta contaNova) {
+        List<Conta> contas = getAllContas();
+        for (Conta conta : contas) {
+            if(conta.getId() == contaNova.getId()){
+                conta.setConta(contaNova);
+            }
+            if(BancoDados.writeArq(conta, "src/bd/contas")){
+                return false;
+            }
+        }
         return true;
     }
 

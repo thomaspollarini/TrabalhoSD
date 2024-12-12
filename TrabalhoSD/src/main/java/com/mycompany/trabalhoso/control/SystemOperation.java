@@ -10,15 +10,16 @@ public class SystemOperation {
     public SystemOperation() {
     }
 
-    public static double consultarSaldo(int idConta) {
-        return ServiceConta.getConta(idConta).getSaldo();
+    public static String consultarSaldo(int idConta) {
+        return "Saldo atual: R$" + ServiceConta.getConta(idConta).getSaldo();
     }
 
-    //FALTA ESPERA
-    public static boolean transferir(int idContaSaida, int idContaDestino, double valor) {
-        
-        
-        return false;
+    public static String transferir(int idContaSaida, int idContaDestino, double valor) throws IOException {
+        if(valor<=0){
+            return "ERRO: Valor inválido!";
+        }
+        Transacao transacao = new Transacao(ServiceTransacao.getNextId(),valor,idContaSaida,idContaDestino);
+        return ServiceTransacao.fazerTransacao(transacao);
     }
 
     public static String criarConta(Cliente cliente, Conta conta) throws IOException{
@@ -30,7 +31,6 @@ public class SystemOperation {
         }
         
         conta.setIdCliente(cliente.getId());
-
         return ServiceConta.criarConta(conta) ? "Conta criada com sucesso" : "Identificador já está cadastrado";
     }
 

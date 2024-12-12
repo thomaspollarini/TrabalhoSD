@@ -16,11 +16,13 @@ import static java.nio.file.Files.readAllLines;
 public class BancoDados {
     
 
-    public static <T> void writeArq(T objeto, String caminhoArquivo) {
+    public static <T> boolean writeArq(T objeto, String caminhoArquivo) {
         try (FileWriter escritor = new FileWriter(caminhoArquivo, true)) {
             escritor.write(objeto.toString() + "\n");
+            return true;
         } catch (IOException e) {
             System.out.println("Erro na escrita do arquivo: " + caminhoArquivo);
+            return false;
         }
     }
 
