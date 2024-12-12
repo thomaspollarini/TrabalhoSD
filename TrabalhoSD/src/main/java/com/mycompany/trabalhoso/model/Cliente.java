@@ -9,6 +9,12 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(String nome, String CPF) {
+        this.id = 0;
+        this.nome = nome;
+        this.CPF = CPF;
+    }
+
     public Cliente(int id, String nome, String CPF) {
         this.id = id;
         this.nome = nome;

@@ -7,7 +7,16 @@ public class Conta{
     private String senha;
     private int idCliente;
 
+
     public Conta() {
+    }
+
+    public Conta(double saldo, String identificador, String senha, int idCliente) {
+        this.id = 0;
+        this.saldo = saldo;
+        this.identificador = identificador;
+        this.senha = senha;
+        this.idCliente = idCliente;
     }
 
     public Conta(int id, double saldo, String identificador, String senha, int idCliente) {
