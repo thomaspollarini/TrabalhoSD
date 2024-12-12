@@ -68,6 +68,14 @@ public class Conta{
         this.idCliente=idCliente;
     }
 
+    public void setConta(double saldo, String identificador, String senha, int idCliente){
+        this.id=0;
+        this.saldo=saldo;
+        this.identificador=identificador;
+        this.senha=senha;
+        this.idCliente=idCliente;
+    }
+
     public void setId(int id){
         this.id=id;
     }
@@ -88,8 +96,7 @@ public class Conta{
         this.idCliente=idCliente;
     }
     
-   
-    
+
 public String toString() {
         return String.format("%d;%.2f%,%s;%s;%d",
                 this.id, 

@@ -10,7 +10,13 @@ public class ServiceCliente {
     public ServiceCliente(){
     }
 
-    public static boolean inserir(Cliente cliente) throws IOException{
+    //CRIAR FUNÇÃO PARA SEPARAR A CRIAÇÃO E O NOVO ID, FAZER NA CONTA TAMBÉM
+    public static boolean criarCliente(Cliente cliente) throws IOException{
+
+        if(Verify.cpfUnico(cliente.getCPF())){
+            return false;
+        }
+
         cliente.setId(BancoDados.readArqCliente().stream()
         .map(clientes
                 -> clientes.getId()
@@ -22,9 +28,16 @@ public class ServiceCliente {
         return true;
     }
     
-    public Cliente getCliente(int id) {
+    public static Cliente getCliente(int id) {
         return getAllClientes().stream()
                 .filter(cliente -> cliente.getId() == id)
+                .findFirst() // Retorna o primeiro cliente encontrado
+                .orElse(null);
+    }
+
+    public static Cliente getCliente(String cpf) {
+        return getAllClientes().stream()
+                .filter(cliente -> cliente.getCPF().equals(cpf))
                 .findFirst() // Retorna o primeiro cliente encontrado
                 .orElse(null);
     }

@@ -57,5 +57,26 @@ public class BancoDados {
         }
     }
 
-    
+    public static List<Transacao> readArqTransacao() throws IOException {
+        List<String> linhas = readAllLines(Paths.get("src/bd/transacoes"), Charset.defaultCharset());
+        return linhas.stream()
+                .map(linha -> linha.split(";"))
+                .map(dados -> {
+                    return new Transacao(
+                            Integer.parseInt(dados[0]),
+                            Double.parseDouble(dados[1]),
+                            Integer.parseInt(dados[2]),
+                            Integer.parseInt(dados[3])
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static void writeArqTransacao(Transacao transacao) throws IOException {
+        try (FileWriter escritor = new FileWriter("src/bd/transacoes", true)) {
+            escritor.write(transacao.toString()+"\n");
+        } catch (Exception e) {
+            System.out.println("Erro na escrita do arquivo transacoes");
+        }
+    }
 }

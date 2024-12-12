@@ -9,7 +9,7 @@ public class ServiceConta {
     public ServiceConta() {
     }
 
-    public boolean criarConta(Conta conta) {
+    public static boolean criarConta(Conta conta) {
 
         if(Verify.identificadorUnico(conta.getIdentificador()) && Verify.idClienteExiste(conta.getIdCliente())){
             return false;
@@ -28,7 +28,7 @@ public class ServiceConta {
         return true;
     }
 
-    public Conta getConta(int id) {
+    public static Conta getConta(int id) {
         return getAllContas().stream()
                 .filter(conta -> conta.getId() == id)
                 .findFirst()
