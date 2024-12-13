@@ -22,12 +22,14 @@ public class SystemOperation {
     }
 
     public static String criarConta(Cliente cliente, Conta conta) throws IOException{
+
+        cliente.setId(ServiceCliente.getNextId());
     
         if(!ServiceCliente.criarCliente(cliente)){
             return "CPF já está cadastrado";
         }
-        //VAI MUDAR ISSO DPS
-        conta.setIdCliente(ServiceCliente.getCliente(cliente.getCPF()).getId());
+        
+        conta.setIdCliente(cliente.getId());
 
         return ServiceConta.criarConta(conta) ? "Conta criada com sucesso" : "Identificador já está cadastrado";
     }

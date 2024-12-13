@@ -14,16 +14,8 @@ public class ServiceConta {
         if(Verify.identificadorUnico(conta.getIdentificador()) && Verify.idClienteExiste(conta.getIdCliente())){
             return false;
         }
-
         conta.setSaldo(1000);
-        conta.setId (getAllContas()
-                .stream()
-                .map(contas-> contas.getId())
-                .max(Integer::compare)
-                .orElse(0)
-                +1);
-        
-        BancoDados.writeArqConta(conta);
+        BancoDados.writeArq(conta, "src/bd/contas");
         
         return true;
     }
@@ -42,6 +34,15 @@ public class ServiceConta {
             System.out.println("Erro ao ler o arquivo Contas");
             return null;
         }
-    } 
+    }
+
+    public static int getNextId(){
+        return getAllContas()
+                .stream()
+                .map(contas-> contas.getId())
+                .max(Integer::compare)
+                .orElse(0)
+                +1;
+    }
     
 }

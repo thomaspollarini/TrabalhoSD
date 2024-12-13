@@ -16,6 +16,39 @@ import static java.nio.file.Files.readAllLines;
 public class BancoDados {
     
 
+    public static <T> void writeArq(T objeto, String caminhoArquivo) {
+        try (FileWriter escritor = new FileWriter(caminhoArquivo, true)) {
+            escritor.write(objeto.toString() + "\n");
+        } catch (IOException e) {
+            System.out.println("Erro na escrita do arquivo: " + caminhoArquivo);
+        }
+    }
+
+    /* 
+    public static void writeArqCliente(Cliente cliente) {
+        try (FileWriter escritor = new FileWriter("src/bd/clientes", true)) {
+            escritor.write(cliente.toString()+"\n");
+        } catch (Exception e) {
+            System.out.println("Erro na escrita do arquivo cliente");
+    }
+
+    public static void writeArqConta(Conta conta) {
+        try (FileWriter escritor = new FileWriter("src/bd/contas", true)) {
+            escritor.write(conta.toString()+"\n");
+        } catch (Exception e) {
+            System.out.println("Erro na escrita do arquivo contas");
+    }
+
+    public static void writeArqTransacao(Transacao transacao) throws IOException {
+        try (FileWriter escritor = new FileWriter("src/bd/transacoes", true)) {
+            escritor.write(transacao.toString()+"\n");
+        } catch (Exception e) {
+            System.out.println("Erro na escrita do arquivo transacoes");
+        }
+    }
+    
+    */
+
     public static List<Cliente> readArqCliente() throws IOException {
         List<String> linhas = readAllLines(Paths.get("src/bd/clientes"), Charset.defaultCharset());
         return linhas.stream()
@@ -24,14 +57,6 @@ public class BancoDados {
                     return new Cliente(Integer.parseInt(dados[0]), dados[1], dados[2]);
                 })
                 .collect(Collectors.toList());
-    }
-
-    public static void writeArqCliente(Cliente cliente) {
-        try (FileWriter escritor = new FileWriter("src/bd/clientes", true)) {
-            escritor.write(cliente.toString()+"\n");
-        } catch (Exception e) {
-            System.out.println("Erro na escrita do arquivo cliente");
-        }
     }
 
     public static List<Conta> readArqConta() throws IOException {
@@ -49,13 +74,9 @@ public class BancoDados {
                 })
                 .collect(Collectors.toList());
     }
-    public static void writeArqConta(Conta conta) {
-        try (FileWriter escritor = new FileWriter("src/bd/contas", true)) {
-            escritor.write(conta.toString()+"\n");
-        } catch (Exception e) {
-            System.out.println("Erro na escrita do arquivo contas");
-        }
-    }
+
+    
+    
 
     public static List<Transacao> readArqTransacao() throws IOException {
         List<String> linhas = readAllLines(Paths.get("src/bd/transacoes"), Charset.defaultCharset());
@@ -72,11 +93,5 @@ public class BancoDados {
                 .collect(Collectors.toList());
     }
 
-    public static void writeArqTransacao(Transacao transacao) throws IOException {
-        try (FileWriter escritor = new FileWriter("src/bd/transacoes", true)) {
-            escritor.write(transacao.toString()+"\n");
-        } catch (Exception e) {
-            System.out.println("Erro na escrita do arquivo transacoes");
-        }
-    }
+    
 }

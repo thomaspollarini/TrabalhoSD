@@ -10,21 +10,11 @@ public class ServiceCliente {
     public ServiceCliente(){
     }
 
-    //CRIAR FUNÇÃO PARA SEPARAR A CRIAÇÃO E O NOVO ID, FAZER NA CONTA TAMBÉM
     public static boolean criarCliente(Cliente cliente) throws IOException{
-
-        if(Verify.cpfUnico(cliente.getCPF())){
+        if(Verify.cpfUnico(cliente.getCPF()) && Verify.idClienteExiste(cliente.getId())){
             return false;
         }
-
-        cliente.setId(BancoDados.readArqCliente().stream()
-        .map(clientes
-                -> clientes.getId()
-        ) // Extrai o ID de cada cliente
-        .max(Integer::compare) // Encontra o maior ID
-        .orElse(0)
-        + 1);
-        BancoDados.writeArqCliente(cliente);
+        BancoDados.writeArq(cliente,"src/bd/clientes");
         return true;
     }
     
@@ -50,5 +40,14 @@ public class ServiceCliente {
             System.out.println("Erro ao ler o arquivo Cliente");
             return null;
         }
+    }
+
+    public static int getNextId(){
+        return getAllClientes()
+                .stream()
+                .map(clientes-> clientes.getId())
+                .max(Integer::compare)
+                .orElse(0)
+                +1;
     }
 }

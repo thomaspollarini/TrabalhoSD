@@ -31,7 +31,7 @@ public class ServiceTransacao {
         .max(Integer::compare) // Encontra o maior ID
         .orElse(0)
         + 1);
-        BancoDados.writeArqTransacao(transacao);
+        BancoDados.writeArq(transacao,"src/bd/transacoes");
         return true;
     }
 
