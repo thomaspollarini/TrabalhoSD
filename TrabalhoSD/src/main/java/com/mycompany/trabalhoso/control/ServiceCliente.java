@@ -10,21 +10,24 @@ public class ServiceCliente {
     public ServiceCliente(){
     }
 
-    public static boolean inserir(Cliente cliente) throws IOException{
-        cliente.setId(BancoDados.readArqCliente().stream()
-        .map(clientes
-                -> clientes.getId()
-        ) // Extrai o ID de cada cliente
-        .max(Integer::compare) // Encontra o maior ID
-        .orElse(0)
-        + 1);
-        BancoDados.writeArqCliente(cliente);
+    public static boolean criarCliente(Cliente cliente) throws IOException{
+        if(Verify.cpfUnico(cliente.getCPF()) && Verify.idClienteExiste(cliente.getId())){
+            return false;
+        }
+        BancoDados.writeArq(cliente,"src/bd/clientes");
         return true;
     }
     
-    public Cliente getCliente(int id) {
+    public static Cliente getCliente(int id) {
         return getAllClientes().stream()
                 .filter(cliente -> cliente.getId() == id)
+                .findFirst() // Retorna o primeiro cliente encontrado
+                .orElse(null);
+    }
+
+    public static Cliente getCliente(String cpf) {
+        return getAllClientes().stream()
+                .filter(cliente -> cliente.getCPF().equals(cpf))
                 .findFirst() // Retorna o primeiro cliente encontrado
                 .orElse(null);
     }
@@ -37,5 +40,14 @@ public class ServiceCliente {
             System.out.println("Erro ao ler o arquivo Cliente");
             return null;
         }
+    }
+
+    public static int getNextId(){
+        return getAllClientes()
+                .stream()
+                .map(clientes-> clientes.getId())
+                .max(Integer::compare)
+                .orElse(0)
+                +1;
     }
 }

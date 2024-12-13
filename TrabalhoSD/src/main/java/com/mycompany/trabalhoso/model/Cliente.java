@@ -49,6 +49,12 @@ public class Cliente {
         this.CPF=CPF;
     }
 
+    public void setCliente(String nome, String CPF){
+        this.id=0;
+        this.nome=nome;
+        this.CPF=CPF;
+    }
+
     public void setId(int id){
         this.id=id;
     }
