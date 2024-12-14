@@ -59,7 +59,7 @@ public class BancoDados extends UnicastRemoteObject implements ModelAPI {
     */
 
     
-    public List<Object> readArqCliente() throws IOException, RemoteException {
+    public List<Cliente> readArqCliente() throws IOException, RemoteException {
         List<String> linhas = readAllLines(Paths.get("src/bd/clientes"), Charset.defaultCharset());
         return linhas.stream()
                 .map(linha -> linha.split(";"))
@@ -107,7 +107,7 @@ public class BancoDados extends UnicastRemoteObject implements ModelAPI {
         try {
             BancoDados bd = new BancoDados();
             
-            Naming.rebind("rmi://localhost/bancoDados", bd);
+            Naming.rebind("rmi://localhost:1099/bancoDados", bd);
             System.out.println("BANCO DE DADOS LIGADO!!");
             System.out.println("Servidor >> ligado no registro RMI sob o nome 'bancoDados' ");
     }
