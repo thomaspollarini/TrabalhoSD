@@ -20,7 +20,7 @@ public class ServiceConta {
         try {
             
             ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
-        return bd.writeArq(conta,"src/bd/ontas");
+        return bd.writeArq(conta,"src/bd/contas");
 
         } catch (Exception e) {
             System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
