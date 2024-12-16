@@ -3,6 +3,7 @@ package com.mycompany.trabalhoso.control;
 import com.mycompany.trabalhoso.model.*;
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.util.List;
 
 public class ServiceCliente {
@@ -14,7 +15,17 @@ public class ServiceCliente {
         if(Verify.cpfUnico(cliente.getCPF()) && Verify.idClienteExiste(cliente.getId())){
             return false;
         }
-        return BancoDados.writeArq(cliente,"src/bd/clientes");
+        //ModelAPI bd = null;
+        try {
+
+            ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
+        return bd.writeArq(cliente,"src/bd/clientes");
+
+        } catch (Exception e) {
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public static Cliente getCliente(int id) {
@@ -33,10 +44,13 @@ public class ServiceCliente {
 
     public static List<Cliente> getAllClientes() {
         //return new Cliente().readArqCliente();
+        //ModelAPI bd = null;
         try {
-            return BancoDados.readArqCliente();
-        } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo Cliente");
+            ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
+            return bd.readArqCliente();
+        } catch (Exception e ) {
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
+            e.printStackTrace();
             return null;
         }
     }

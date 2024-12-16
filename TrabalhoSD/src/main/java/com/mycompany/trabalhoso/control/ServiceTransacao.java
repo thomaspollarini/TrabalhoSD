@@ -1,6 +1,8 @@
 package com.mycompany.trabalhoso.control;
 
 import java.io.IOException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.util.List;
 
 import com.mycompany.trabalhoso.model.*;
@@ -22,8 +24,13 @@ public class ServiceTransacao {
         if(!atualizarSaldos(cSaida,cDestino,transacao.getValor())){
             return "ERRO: Saldo insuficiente!";
         }
-
-        return BancoDados.writeArq(transacao,"src/bd/transacoes") ? "Transferência feita com sucesso" : "ERRO: Transferência falhou";
+        try{
+        ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
+        return bd.writeArq(transacao,"src/bd/transacoes") ? "Transferência feita com sucesso" : "ERRO: Transferência falhou";
+        }catch(Exception e){
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+            return "ERRO: Transferência falhou";
+        }
     }
     
     private static boolean atualizarSaldos(Conta cSaida, Conta cDestino, double valor){
@@ -49,9 +56,10 @@ public class ServiceTransacao {
     public static List<Transacao> getAllTransacoes() {
         //return new Transacao().readArqTransacao();
         try {
-            return BancoDados.readArqTransacao();
+            ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
+            return bd.readArqTransacao();
         } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo Transacao");
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
             return null;
         }
     }
