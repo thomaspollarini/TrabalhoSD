@@ -18,8 +18,8 @@ public class SystemOperation extends UnicastRemoteObject implements ControlAPI {
         return "Saldo atual: R$" + ServiceConta.getConta(idConta).getSaldo();
     }
 
-    public static String transferir(int idContaSaida, int idContaDestino, double valor) throws IOException, RemoteException {
-        if (valor <= 0) {
+    public String transferir(int idContaSaida, int idContaDestino, double valor) throws IOException, RemoteException {
+        if(valor<=0){
             return "ERRO: Valor inválido!";
         }
         Transacao transacao = new Transacao(ServiceTransacao.getNextId(), valor, idContaSaida, idContaDestino);
@@ -99,10 +99,10 @@ public class SystemOperation extends UnicastRemoteObject implements ControlAPI {
             Naming.rebind("rmi://localhost/control",control);
             System.out.println("SERVIDOR DE CONCROLE LIGADO!!");
             System.out.println("Servidor >> ligado no registro RMI sob o nome 'control' ");
-    }
-    catch (Exception e) {
-        System.out.println("ERRO: servidor controle  " + e.getMessage()); 
-        e.printStackTrace(); 
+        }
+        catch (Exception e) {
+            System.out.println("ERRO: servidor controle  " + e.getMessage()); 
+            e.printStackTrace(); 
         }
     }
 
