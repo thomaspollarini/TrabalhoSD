@@ -22,6 +22,26 @@ public class SystemOperation {
         return ServiceTransacao.fazerTransacao(transacao);
     }
 
+    public static String consultarExtrato(int idConta) {
+        StringBuilder result = new StringBuilder();
+        ServiceTransacao.getAllTransacoes().stream()
+            .filter(transacao -> transacao.getIdContaSaida() == idConta || transacao.getIdContaDestino() == idConta)
+            .forEach(transacao -> {
+                if(transacao.getIdContaSaida() == idConta){
+                result.append("Transferência feita para conta " + transacao.getIdContaDestino() + " no valor de R$" + transacao.getValor() + "\n");
+                }else{
+                result.append("Transferência recebida da conta " + transacao.getIdContaDestino() + " no valor de R$" + transacao.getValor() + "\n");
+                }
+            });
+
+        if (result.length() == 0) {
+            result.append("Nenhuma transferência registrada");
+        }
+        
+        return result.toString();
+     
+    }
+
     public static String criarConta(Cliente cliente, Conta conta) throws IOException{
 
         cliente.setId(ServiceCliente.getNextId());
