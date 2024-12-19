@@ -12,6 +12,9 @@ public interface ControlAPI extends Remote {
         public String transferir(int idContaSaida, int idContaDestino, double valor) throws IOException, RemoteException;
         public String consultarExtrato(int idConta) throws RemoteException;
         public String criarConta(Cliente cliente, Conta conta) throws IOException, RemoteException;
+        public boolean realizarLogin(String identificador, String senha) throws RemoteException;
+        public String consultarMontante() throws RemoteException;
+        public String pesquisarContas(String nome) throws RemoteException;
 
     
 }

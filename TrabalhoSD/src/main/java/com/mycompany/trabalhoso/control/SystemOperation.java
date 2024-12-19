@@ -60,11 +60,11 @@ public class SystemOperation extends UnicastRemoteObject implements ControlAPI {
         return ServiceConta.criarConta(conta) ? "Conta criada com sucesso" : "Identificador já está cadastrado";
     }
 
-    public boolean realizarLogin(String identificador, String senha) {
+    public boolean realizarLogin(String identificador, String senha) throws RemoteException {
         return ServiceConta.realizarLogin(identificador, senha);
     }
 
-    public String consultarMontante() {
+    public String consultarMontante() throws RemoteException{
         return "Montante total: R$"
                 + ServiceConta.getAllContas()
                         .stream()
@@ -74,7 +74,7 @@ public class SystemOperation extends UnicastRemoteObject implements ControlAPI {
                 + ServiceConta.getAllContas().size();
     }
 
-    public String pesquisarContas(String nome) {
+    public String pesquisarContas(String nome) throws RemoteException {
         StringBuilder result = new StringBuilder();
         ServiceCliente.getAllClientes().stream()
                 .filter(cliente -> cliente.getNome().contains(nome))

@@ -1,9 +1,10 @@
 package com.mycompany.trabalhoso.view;
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.util.Scanner;
 
-
+import com.mycompany.trabalhoso.control.ControlAPI;
 import com.mycompany.trabalhoso.model.*;
 
 
@@ -103,7 +104,14 @@ public class TrabalhoSO {
             System.out.print("Insira sua senha:");
             c.setSenha(teclado.nextLine());
         }
-
+        try{
+             ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+             control.criarConta(cli,c);
+        }
+        catch (Exception e) {
+            System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+            e.printStackTrace();
+        }
         //System.out.println( SystemOperation.criarConta(cli,c));
 
     }
