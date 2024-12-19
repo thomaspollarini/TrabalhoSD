@@ -4,7 +4,6 @@ import java.rmi.Naming;
 import java.util.List;
 import com.mycompany.trabalhoso.model.*;
 
-
 public class ServiceConta {
 
     public ServiceConta() {
@@ -12,18 +11,18 @@ public class ServiceConta {
 
     public static boolean criarConta(Conta conta) {
 
-        if(Verify.identificadorUnico(conta.getIdentificador()) && Verify.idClienteExiste(conta.getIdCliente())){
+        if (Verify.identificadorUnico(conta.getIdentificador()) && Verify.idClienteExiste(conta.getIdCliente())) {
             return false;
         }
         conta.setSaldo(1000);
-        //ModelAPI bd = null;
+        // ModelAPI bd = null;
         try {
-            
+
             ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
-        return bd.writeArq(conta,"src/bd/contas");
+            return bd.writeArq(conta, "src/bd/contas");
 
         } catch (Exception e) {
-            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -32,19 +31,19 @@ public class ServiceConta {
     public static boolean atualizarConta(Conta contaNova) {
         List<Conta> contas = getAllContas();
         for (Conta conta : contas) {
-            if(conta.getId() == contaNova.getId()){
+            if (conta.getId() == contaNova.getId()) {
                 conta.setConta(contaNova);
             }
-            try{
+            try {
                 ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
-            if(bd.writeArq(conta, "src/bd/contas")){
+                if (bd.writeArq(conta, "src/bd/contas")) {
+                    return false;
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
+                e.printStackTrace();
                 return false;
             }
-        }catch(Exception e){
-            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
-            e.printStackTrace();
-            return false;
-        }
         }
         return true;
     }
@@ -73,18 +72,18 @@ public class ServiceConta {
             ModelAPI bd = (ModelAPI) Naming.lookup("rmi://localhost:1099/bancoDados");
             return bd.readArqConta();
         } catch (Exception e) {
-            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage()); 
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
             return null;
         }
     }
 
-    public static int getNextId(){
+    public static int getNextId() {
         return getAllContas()
                 .stream()
-                .map(contas-> contas.getId())
+                .map(contas -> contas.getId())
                 .max(Integer::compare)
                 .orElse(0)
-                +1;
+                + 1;
     }
-    
+
 }
