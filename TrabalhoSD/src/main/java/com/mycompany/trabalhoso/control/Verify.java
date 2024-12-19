@@ -1,11 +1,11 @@
 package com.mycompany.trabalhoso.control;
 
 public class Verify {
-    
     public Verify() {
     }
 
     public static boolean identificadorUnico(String identificador) {
+     
         return ServiceConta.getAllContas()
         .stream()
         .map(conta -> conta.getIdentificador())

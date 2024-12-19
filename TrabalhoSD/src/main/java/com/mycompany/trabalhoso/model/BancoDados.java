@@ -7,20 +7,29 @@ package com.mycompany.trabalhoso.model;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import static java.nio.file.Files.readAllLines;
 import java.nio.file.Paths;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.nio.file.Files.readAllLines;
+public class BancoDados extends UnicastRemoteObject implements ModelAPI {
 
-public class BancoDados {
+    public BancoDados()throws RemoteException {
+        super();
+    }
+
     
 
-    public static <T> void writeArq(T objeto, String caminhoArquivo) {
+    public <T> boolean writeArq(T objeto, String caminhoArquivo) throws RemoteException {
         try (FileWriter escritor = new FileWriter(caminhoArquivo, true)) {
             escritor.write(objeto.toString() + "\n");
+            return true;
         } catch (IOException e) {
             System.out.println("Erro na escrita do arquivo: " + caminhoArquivo);
+            return false;
         }
     }
 
@@ -49,7 +58,8 @@ public class BancoDados {
     
     */
 
-    public static List<Cliente> readArqCliente() throws IOException {
+    
+    public List<Cliente> readArqCliente() throws IOException, RemoteException {
         List<String> linhas = readAllLines(Paths.get("src/bd/clientes"), Charset.defaultCharset());
         return linhas.stream()
                 .map(linha -> linha.split(";"))
@@ -59,7 +69,7 @@ public class BancoDados {
                 .collect(Collectors.toList());
     }
 
-    public static List<Conta> readArqConta() throws IOException {
+    public List<Conta> readArqConta() throws IOException, RemoteException{
         List<String> linhas = readAllLines(Paths.get("src/bd/contas"), Charset.defaultCharset());
         return linhas.stream()
                 .map(linha -> linha.split(";"))
@@ -78,7 +88,7 @@ public class BancoDados {
     
     
 
-    public static List<Transacao> readArqTransacao() throws IOException {
+    public List<Transacao> readArqTransacao() throws IOException {
         List<String> linhas = readAllLines(Paths.get("src/bd/transacoes"), Charset.defaultCharset());
         return linhas.stream()
                 .map(linha -> linha.split(";"))
@@ -93,5 +103,18 @@ public class BancoDados {
                 .collect(Collectors.toList());
     }
 
+    public static void main(String[] args) {
+        try {
+            BancoDados bd = new BancoDados();
+            
+            Naming.rebind("rmi://localhost:1099/bancoDados", bd);
+            System.out.println("BANCO DE DADOS LIGADO!!");
+            System.out.println("Servidor >> ligado no registro RMI sob o nome 'bancoDados' ");
+    }
+    catch (Exception e) {
+        System.out.println("ERRO: Banco de dados " + e.getMessage()); 
+        e.printStackTrace(); 
+        }
+    }
     
 }

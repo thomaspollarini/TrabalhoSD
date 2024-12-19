@@ -10,15 +10,36 @@ public class SystemOperation {
     public SystemOperation() {
     }
 
-    public static double consultarSaldo(int idConta) {
-        return ServiceConta.getConta(idConta).getSaldo();
+    public static String consultarSaldo(int idConta) {
+        return "Saldo atual: R$" + ServiceConta.getConta(idConta).getSaldo();
     }
 
-    //FALTA ESPERA
-    public static boolean transferir(int idContaSaida, int idContaDestino, double valor) {
+    public static String transferir(int idContaSaida, int idContaDestino, double valor) throws IOException {
+        if(valor<=0){
+            return "ERRO: Valor inválido!";
+        }
+        Transacao transacao = new Transacao(ServiceTransacao.getNextId(),valor,idContaSaida,idContaDestino);
+        return ServiceTransacao.fazerTransacao(transacao);
+    }
+
+    public static String consultarExtrato(int idConta) {
+        StringBuilder result = new StringBuilder();
+        ServiceTransacao.getAllTransacoes().stream()
+            .filter(transacao -> transacao.getIdContaSaida() == idConta || transacao.getIdContaDestino() == idConta)
+            .forEach(transacao -> {
+                if(transacao.getIdContaSaida() == idConta){
+                result.append("Transferência feita para conta " + transacao.getIdContaDestino() + " no valor de R$" + transacao.getValor() + "\n");
+                }else{
+                result.append("Transferência recebida da conta " + transacao.getIdContaDestino() + " no valor de R$" + transacao.getValor() + "\n");
+                }
+            });
+
+        if (result.length() == 0) {
+            result.append("Nenhuma transferência registrada");
+        }
         
-        
-        return false;
+        return result.toString();
+     
     }
 
     public static String criarConta(Cliente cliente, Conta conta) throws IOException{
@@ -30,7 +51,6 @@ public class SystemOperation {
         }
         
         conta.setIdCliente(cliente.getId());
-
         return ServiceConta.criarConta(conta) ? "Conta criada com sucesso" : "Identificador já está cadastrado";
     }
 

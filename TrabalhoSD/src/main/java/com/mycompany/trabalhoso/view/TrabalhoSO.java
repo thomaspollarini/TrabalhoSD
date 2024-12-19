@@ -3,7 +3,7 @@ package com.mycompany.trabalhoso.view;
 import java.io.IOException;
 import java.util.Scanner;
 
-import com.mycompany.trabalhoso.control.*;
+
 import com.mycompany.trabalhoso.model.*;
 
 
@@ -12,7 +12,7 @@ public class TrabalhoSO {
     public static void main(String[] args) throws IOException {
 
         int opMenu = 0;
-        Scanner teclado = new Scanner(System.in);
+        try (Scanner teclado = new Scanner(System.in)) {
             while(opMenu != 3){
 
                 System.out.println("\nBanco Imobiliario");
@@ -33,6 +33,7 @@ public class TrabalhoSO {
                         break;
                 }
             }
+        }
     }
     
 
@@ -84,40 +85,41 @@ public class TrabalhoSO {
     public static void criarConta() throws IOException{
         Conta c = new Conta();
         Cliente cli = new Cliente();
-        Scanner teclado = new Scanner(System.in);
-        
-        System.out.println("Criando nova conta");
-                            
-        System.out.print("Insira o identificador da sua conta:");
-        c.setIdentificador(teclado.nextLine());
-        System.out.print("Insira seu nome completo:");
-        cli.setNome(teclado.nextLine());
-        System.out.print("Insira seu CPF:");
-        cli.setCPF(teclado.nextLine());
-        System.out.print("Insira sua senha:");
-        c.setSenha(teclado.nextLine());
+        try (Scanner teclado = new Scanner(System.in)) {
+            System.out.println("Criando nova conta");
+                                
+            System.out.print("Insira o identificador da sua conta:");
+            c.setIdentificador(teclado.nextLine());
+            System.out.print("Insira seu nome completo:");
+            cli.setNome(teclado.nextLine());
+            System.out.print("Insira seu CPF:");
+            cli.setCPF(teclado.nextLine());
+            System.out.print("Insira sua senha:");
+            c.setSenha(teclado.nextLine());
+        }
 
         //System.out.println( SystemOperation.criarConta(cli,c));
 
     }
 
     public static void transConta(){
-        String contaDestino = new String();
-        Scanner teclado = new Scanner(System.in);
-        boolean aut = true;
-        
-        System.out.println("Tranferencia de valor");
-        System.out.print("\nInsira o nome do titular da conta de destino:");
-        contaDestino = teclado.nextLine();
+        int contaDestino;
+        try (Scanner teclado = new Scanner(System.in)) {
+            boolean aut = true;
+            
+            System.out.println("Tranferencia de valor");
+            System.out.print("\nInsira o nome do titular da conta de destino:");
+            contaDestino = teclado.nextInt();
 
-        //Funcao de pesquisa da conta de destino
-        if(aut){
-            float valor;
-            System.out.print("Insira o valor da tranferencia:");
-            valor = teclado.nextFloat();
-            //Funcao de tranferencia
-        }else{
-            System.out.println("Conta destino nao encontrada");
+            //Funcao de pesquisa da conta de destino
+            if(aut){
+                float valor;
+                System.out.print("Insira o valor da tranferencia:");
+                valor = teclado.nextFloat();
+                //Funcao de tranferencia
+            }else{
+                System.out.println("Conta destino nao encontrada");
+            }
         }
     }
 
