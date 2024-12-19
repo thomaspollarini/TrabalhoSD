@@ -48,10 +48,22 @@ public class ServiceConta {
         }
         return true;
     }
+    //testa kk
+    public static boolean realizarLogin(String identificador, String senha) {
+        return getAllContas().stream()
+                .anyMatch(conta -> conta.getIdentificador().equals(identificador) && conta.getSenha().equals(senha));
+    }
 
     public static Conta getConta(int id) {
         return getAllContas().stream()
                 .filter(conta -> conta.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static Conta getContaCliente(int idCliente) {
+        return getAllContas().stream()
+                .filter(conta -> conta.getIdCliente()==idCliente)
                 .findFirst()
                 .orElse(null);
     }

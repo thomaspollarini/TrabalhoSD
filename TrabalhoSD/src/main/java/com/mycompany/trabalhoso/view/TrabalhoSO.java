@@ -50,27 +50,33 @@ public class TrabalhoSO {
             System.out.println("Insira sua senha:");
             c.setSenha(teclado.nextLine());
 
-            //Autenticacao
+            //Autenticacao chamar função realizarLogin
+
+
             if(aut){
-                while(opMenu != 4){
+                while(opMenu != 5){
 
                     System.out.println("\nOperacoes bancarias");
                     System.out.println("1 - Consulta de saldo");
                     System.out.println("2 - Tranferencia para outra conta");
                     System.out.println("3 - Consulta de extrato");
-                    System.out.println("4 - Sair");
+                    System.out.println("4 - Pesquisar contas por nome");
+                    System.out.println("5 - Sair");
                     System.out.print("Digite o numero da operacao a ser realizada:");
                     opMenu = teclado.nextInt();
     
                     switch (opMenu) {
                         case 1:
-                                //Funcao Consulta de Saldo
+                                //Funcao Consulta de Saldo passar c.getId()
                             break;
                         case 2:
-                                transConta();
+                                transConta(c.getId());
                             break;
                         case 3:
-                                //Funcao Consulta de Extrato
+                                //Funcao Consulta de Extrato passar c.getId()
+                            break;
+                        case 4:
+                                consultarConta();
                         default:
                             break;
                     }
@@ -102,24 +108,30 @@ public class TrabalhoSO {
 
     }
 
-    public static void transConta(){
+    public static void transConta(int contaSaida) throws IOException{
         int contaDestino;
         try (Scanner teclado = new Scanner(System.in)) {
-            boolean aut = true;
             
             System.out.println("Tranferencia de valor");
-            System.out.print("\nInsira o nome do titular da conta de destino:");
+            System.out.print("\nInsira o id da conta de destino:");
             contaDestino = teclado.nextInt();
 
-            //Funcao de pesquisa da conta de destino
-            if(aut){
-                float valor;
-                System.out.print("Insira o valor da tranferencia:");
-                valor = teclado.nextFloat();
-                //Funcao de tranferencia
-            }else{
-                System.out.println("Conta destino nao encontrada");
-            }
+            float valor;
+            System.out.print("Insira o valor da tranferencia:");
+            valor = teclado.nextFloat();
+            //Funcao de tranferencia passar idsaida, contaDestino e valor
+        }
+    }
+
+    public static void consultarConta(){
+        String nomeConta;
+        try (Scanner teclado = new Scanner(System.in)) {
+            
+            System.out.println("Consulta de id da conta por nome");
+            System.out.print("\nInsira o nome do titular da conta:");
+            nomeConta = teclado.nextLine();
+
+            System.out.println(/*chama a função pesquisar contas;)*/);
         }
     }
 
