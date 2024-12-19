@@ -1,9 +1,10 @@
 package com.mycompany.trabalhoso.view;
 
 import java.io.IOException;
+import java.rmi.Naming;
 import java.util.Scanner;
 
-
+import com.mycompany.trabalhoso.control.ControlAPI;
 import com.mycompany.trabalhoso.model.*;
 
 
@@ -50,8 +51,14 @@ public class TrabalhoSO {
             System.out.println("Insira sua senha:");
             c.setSenha(teclado.nextLine());
 
-            //Autenticacao chamar função realizarLogin
-
+            try{
+                ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+                aut = control.realizarLogin(c.getIdentificador(), c.getSenha());
+            }
+            catch (Exception e) {
+                System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+                e.printStackTrace();
+            }
 
             if(aut){
                 while(opMenu != 5){
@@ -67,13 +74,27 @@ public class TrabalhoSO {
     
                     switch (opMenu) {
                         case 1:
-                                //Funcao Consulta de Saldo passar c.getId()
+                            try{
+                                ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+                                System.out.println(control.consultarSaldo(c.getId()));
+                            }
+                            catch (Exception e) {
+                                System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+                                e.printStackTrace();
+                            }
                             break;
                         case 2:
                                 transConta(c.getId());
                             break;
                         case 3:
-                                //Funcao Consulta de Extrato passar c.getId()
+                            try{
+                                ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+                                System.out.println(control.consultarExtrato(c.getId()));
+                            }
+                            catch (Exception e) {
+                                System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+                                e.printStackTrace();
+                            }
                             break;
                         case 4:
                                 consultarConta();
@@ -104,7 +125,14 @@ public class TrabalhoSO {
             c.setSenha(teclado.nextLine());
         }
 
-        //System.out.println( SystemOperation.criarConta(cli,c));
+        try{
+            ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+            System.out.println(control.criarConta(cli,c));
+        }
+        catch (Exception e) {
+            System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+            e.printStackTrace();
+        }
 
     }
 
@@ -119,7 +147,15 @@ public class TrabalhoSO {
             float valor;
             System.out.print("Insira o valor da tranferencia:");
             valor = teclado.nextFloat();
-            //Funcao de tranferencia passar idsaida, contaDestino e valor
+            
+            try{
+                ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+                System.out.println(control.transferir(contaSaida, contaDestino, valor));
+            }
+            catch (Exception e) {
+                System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+                e.printStackTrace();
+            }
         }
     }
 
@@ -131,7 +167,14 @@ public class TrabalhoSO {
             System.out.print("\nInsira o nome do titular da conta:");
             nomeConta = teclado.nextLine();
 
-            System.out.println(/*chama a função pesquisar contas;)*/);
+            try{
+                ControlAPI control = (ControlAPI) Naming.lookup("rmi://localhost/control");
+                System.out.println(control.pesquisarContas(nomeConta));
+            }
+            catch (Exception e) {
+                System.out.println("Erro ao criar a conta: " + e.getMessage()); 
+                e.printStackTrace();
+            }
         }
     }
 
