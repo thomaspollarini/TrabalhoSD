@@ -1,10 +1,11 @@
 package com.mycompany.trabalhoso.control;
 
+import java.io.Serializable;
 import java.rmi.Naming;
 import java.util.List;
 import com.mycompany.trabalhoso.model.*;
 
-public class ServiceConta {
+public class ServiceConta implements Serializable{
 
     public ServiceConta() {
     }

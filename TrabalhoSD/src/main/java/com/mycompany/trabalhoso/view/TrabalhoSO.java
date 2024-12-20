@@ -1,6 +1,7 @@
 package com.mycompany.trabalhoso.view;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Naming;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ import com.mycompany.trabalhoso.control.ControlAPI;
 import com.mycompany.trabalhoso.model.*;
 
 
-public class TrabalhoSO {
+public class TrabalhoSO implements Serializable{
 
     public static void main(String[] args) throws IOException {
 

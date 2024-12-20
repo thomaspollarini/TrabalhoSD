@@ -11,12 +11,11 @@ import static java.nio.file.Files.readAllLines;
 import java.nio.file.Paths;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BancoDados extends UnicastRemoteObject implements ModelAPI {
+public class BancoDados extends UnicastRemoteObject implements ModelAPI{
 
     public BancoDados()throws RemoteException {
         super();
@@ -109,7 +108,7 @@ public class BancoDados extends UnicastRemoteObject implements ModelAPI {
             //LocateRegistry.createRegistry(1099);
             BancoDados bd = new BancoDados();
             
-            Naming.rebind("rmi://localhost:1099/bancoDados", bd);
+            Naming.rebind("rmi://localhost/bancoDados", bd);
             System.out.println("BANCO DE DADOS LIGADO!!");
             System.out.println("Servidor >> ligado no registro RMI sob o nome 'bancoDados' ");
     }
