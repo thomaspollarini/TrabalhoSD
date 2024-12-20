@@ -3,10 +3,11 @@ package com.mycompany.trabalhoso.control;
 import com.mycompany.trabalhoso.model.*;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Naming;
 import java.util.List;
 
-public class ServiceCliente {
+public class ServiceCliente implements Serializable{
 
     public ServiceCliente(){
     }

@@ -1,6 +1,8 @@
 package com.mycompany.trabalhoso.model;
 
-public class Transacao {
+import java.io.Serializable;
+
+public class Transacao implements Serializable{
     private int id;
     private double valor;
     private int idContaSaida;

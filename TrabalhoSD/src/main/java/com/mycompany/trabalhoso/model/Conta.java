@@ -1,6 +1,8 @@
 package com.mycompany.trabalhoso.model;
 
-public class Conta{
+import java.io.Serializable;
+
+public class Conta implements Serializable{
     private int id;
     private double saldo;
     private String identificador;

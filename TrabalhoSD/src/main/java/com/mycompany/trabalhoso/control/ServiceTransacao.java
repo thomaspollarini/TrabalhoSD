@@ -1,6 +1,7 @@
 package com.mycompany.trabalhoso.control;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 import com.mycompany.trabalhoso.model.*;
 
 
-public class ServiceTransacao {
+public class ServiceTransacao implements Serializable{
 
     public ServiceTransacao(){
     }

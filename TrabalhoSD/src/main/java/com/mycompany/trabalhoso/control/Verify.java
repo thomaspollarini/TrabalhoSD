@@ -1,6 +1,8 @@
 package com.mycompany.trabalhoso.control;
 
-public class Verify {
+import java.io.Serializable;
+
+public class Verify implements Serializable{
     public Verify() {
     }
 
